@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ident: MyString
+  airport_type: MyString
+  name: MyString
+  elevation_ft: 9.99
+  continent: MyString
+  iso_country: MyString
+  iso_region: MyString
+  municipality: MyString
+  gps_code: MyString
+  iata_code: MyString
+  local_code: MyString
+  longitude: 9.99
+  latitude: 9.99
+
+two:
+  ident: MyString
+  airport_type: MyString
+  name: MyString
+  elevation_ft: 9.99
+  continent: MyString
+  iso_country: MyString
+  iso_region: MyString
+  municipality: MyString
+  gps_code: MyString
+  iata_code: MyString
+  local_code: MyString
+  longitude: 9.99
+  latitude: 9.99
