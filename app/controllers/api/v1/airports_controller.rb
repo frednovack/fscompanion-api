@@ -40,13 +40,9 @@ module Api
           return render_error('Missing search query parameter (q)')
         end
         
-        airports = Airport.search(query).limit(50)
+        airports = Airport.search(query).where.not(airport_type: 'heliport').limit(200)
         
-        render json: {
-          count: airports.length,
-          query: query,
-          airports: airports.map { |airport| serialize_airport(airport) }
-        }
+        render json: airports.map { |airport| serialize_airport(airport) }
       end
       
       private
@@ -65,8 +61,8 @@ module Api
           gps_code: airport.gps_code,
           iata_code: airport.iata_code,
           local_code: airport.local_code,
-          latitude: airport.latitude,
-          longitude: airport.longitude,
+          latitude: airport.latitude.to_f,
+          longitude: airport.longitude.to_f,
           distance_km: airport.try(:distance)&.round(2)
         }.compact
       end
