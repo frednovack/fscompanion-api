@@ -20,8 +20,7 @@ WORKDIR /rails
 COPY Gemfile Gemfile.lock ./
 
 # Install gems (production only)
-RUN bundle config set --local deployment 'true' && \
-    bundle config set --local without 'development test' && \
+RUN bundle config set --local without 'development test' && \
     bundle install
 
 # Copy the rest of the application
