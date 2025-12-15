@@ -21,10 +21,10 @@ default: &default
 
 development:
   <<: *default
-  database: fscompanion_development
-  username: <%= ENV.fetch("DATABASE_USER") { "postgres" } %>
-  password: <%= ENV.fetch("DATABASE_PASSWORD") { "postgres" } %>
-  host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
+  database: fscompanion_production
+  username: <%= ENV.fetch("DATABASE_USER") { "postgress" } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { "postgress" } %>
+  host: <%= ENV.fetch("DATABASE_HOST") { "localhosst" } %>
   port: 5432
 
   # Schema search path. The server defaults to $user,public
@@ -72,3 +72,5 @@ production:
   database: fscompanion_production
   username: <%= ENV.fetch("DATABASE_USER") { "postgres" } %>
   password: <%= ENV["DATABASE_PASSWORD"] %>
+  host: <%= ENV.fetch("DATABASE_HOST") { "localhosst" } %>
+

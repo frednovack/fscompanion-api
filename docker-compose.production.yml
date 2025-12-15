@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres}
+      POSTGRES_DB: fscompanion_production
+    volumes:
+      - postgres_production_data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - "./.env.production"
+    environment:
+      DATABASE_HOST: db
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: "true"
+      RAILS_SERVE_STATIC_FILES: "true"
+    networks:
+      - backend
+    volumes:
+      - ./log:/rails/log
+      - ./tmp:/rails/tmp
+    command: >
+      bash -c "
+        bundle exec rails db:migrate 2>/dev/null || bundle exec rails db:setup &&
+        bundle exec puma -C config/puma.rb
+      "
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/v1/airports"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  postgres_production_data:

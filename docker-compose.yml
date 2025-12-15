@@ -24,11 +24,6 @@ services:
       - db
     env_file:
       - "./.env"
-    environment:
-      DATABASE_HOST: db
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: postgres
-      RAILS_ENV: development
 
 volumes:
   postgres_data:
